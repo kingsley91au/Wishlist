@@ -1,3 +1,29 @@
-# This file stores configurations for your Shopify app.
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
+client_id = "1f313bdea402026c1210448ea2d96fe3"
+name = "click-and-collect"
+handle = "click-and-collect-1"
+application_url = "https://again-una-everyday-visual.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "kingsley-testing.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
 scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://again-una-everyday-visual.trycloudflare.com/auth/callback",
+  "https://again-una-everyday-visual.trycloudflare.com/auth/shopify/callback",
+  "https://again-una-everyday-visual.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+[pos]
+embedded = false
