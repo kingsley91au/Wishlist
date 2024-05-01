@@ -3,7 +3,7 @@
 client_id = "1f313bdea402026c1210448ea2d96fe3"
 name = "click-and-collect"
 handle = "click-and-collect-1"
-application_url = "https://bookstore-baseball-group-table.trycloudflare.com"
+application_url = "https://traffic-hq-plastic-algorithm.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://bookstore-baseball-group-table.trycloudflare.com/auth/callback",
-  "https://bookstore-baseball-group-table.trycloudflare.com/auth/shopify/callback",
-  "https://bookstore-baseball-group-table.trycloudflare.com/api/auth/callback"
+  "https://traffic-hq-plastic-algorithm.trycloudflare.com/auth/callback",
+  "https://traffic-hq-plastic-algorithm.trycloudflare.com/auth/shopify/callback",
+  "https://traffic-hq-plastic-algorithm.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
