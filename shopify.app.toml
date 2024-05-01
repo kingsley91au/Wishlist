@@ -3,7 +3,7 @@
 client_id = "1f313bdea402026c1210448ea2d96fe3"
 name = "click-and-collect"
 handle = "click-and-collect-1"
-application_url = "https://palmer-jacket-floyd-cooperative.trycloudflare.com"
+application_url = "https://changed-ages-omega-immunology.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://palmer-jacket-floyd-cooperative.trycloudflare.com/auth/callback",
-  "https://palmer-jacket-floyd-cooperative.trycloudflare.com/auth/shopify/callback",
-  "https://palmer-jacket-floyd-cooperative.trycloudflare.com/api/auth/callback"
+  "https://changed-ages-omega-immunology.trycloudflare.com/auth/callback",
+  "https://changed-ages-omega-immunology.trycloudflare.com/auth/shopify/callback",
+  "https://changed-ages-omega-immunology.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
