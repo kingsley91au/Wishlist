@@ -3,7 +3,7 @@
 client_id = "1f313bdea402026c1210448ea2d96fe3"
 name = "click-and-collect"
 handle = "click-and-collect-1"
-application_url = "https://germany-peers-cc-quick.trycloudflare.com"
+application_url = "https://polymer-advocate-rs-librarian.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://germany-peers-cc-quick.trycloudflare.com/auth/callback",
-  "https://germany-peers-cc-quick.trycloudflare.com/auth/shopify/callback",
-  "https://germany-peers-cc-quick.trycloudflare.com/api/auth/callback"
+  "https://polymer-advocate-rs-librarian.trycloudflare.com/auth/callback",
+  "https://polymer-advocate-rs-librarian.trycloudflare.com/auth/shopify/callback",
+  "https://polymer-advocate-rs-librarian.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
