@@ -3,7 +3,7 @@
 client_id = "1f313bdea402026c1210448ea2d96fe3"
 name = "click-and-collect"
 handle = "click-and-collect-1"
-application_url = "https://pty-contribute-reno-cities.trycloudflare.com"
+application_url = "https://germany-peers-cc-quick.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://pty-contribute-reno-cities.trycloudflare.com/auth/callback",
-  "https://pty-contribute-reno-cities.trycloudflare.com/auth/shopify/callback",
-  "https://pty-contribute-reno-cities.trycloudflare.com/api/auth/callback"
+  "https://germany-peers-cc-quick.trycloudflare.com/auth/callback",
+  "https://germany-peers-cc-quick.trycloudflare.com/auth/shopify/callback",
+  "https://germany-peers-cc-quick.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
