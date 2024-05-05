@@ -22,7 +22,7 @@ import { formatDistanceToNow, parseISO } from 'date-fns';
 export const loader = async ({ request }) => {
   const auth = await authenticate.admin(request);
   const shop = auth.session.shop;
-  console.log('shop: -------> ', shop);
+  
   // get data from database for that shop acending by id
   const wishlistData = await db.wishlist.findMany({
     where: {
@@ -39,15 +39,28 @@ export const loader = async ({ request }) => {
 };
 
 export const action = async ({ request }) => {
-
+  
 };
 
 export default function Index() {
   const wishlistData = useLoaderData();
   const wishlistArray = wishlistData.map((item) => {
     const createdAt = formatDistanceToNow(parseISO(item.createdAt), { addSuffix: true });
-    return [item.customerId, item.productId, createdAt];
+    const shopDomain = item.shop.split('/app/')[1] || item.shop;
+    return [
+      <Link 
+      removeUnderline
+      target="_blank"
+      url={`https://${shopDomain}/admin/customers/${item.customerId}`}
+      key={item.customerId}
+      >
+      {item.customerId}
+      </Link>, 
+      item.productId, 
+      createdAt
+    ];
   });
+
 
 
   return (
