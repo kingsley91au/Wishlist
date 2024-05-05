@@ -12,7 +12,7 @@ export async function loader({ request }) {
   const productId = url.searchParams.get("productId");
 
 
-  if(!customerId || !shop || !productId) {
+  if (!customerId || !shop || !productId) {
     return json({
       message: "Missing data. Required data: customerId, productId, shop",
       method: "GET"
@@ -51,7 +51,7 @@ export async function action({ request }) {
   const shop = data.shop;
   const _action = data._action;
 
-  if(!customerId || !productId || !shop || !_action) {
+  if (!customerId || !productId || !shop || !_action) {
     return json({
       message: "Missing data. Required data: customerId, productId, shop, _action",
       method: _action
