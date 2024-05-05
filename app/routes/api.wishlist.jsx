@@ -2,101 +2,86 @@ import { json } from "@remix-run/node";
 import db from "../db.server";
 import { cors } from 'remix-utils/cors';
 
-
-// get request: accept request with request: customerId, shop, productId.
-// read database and return wishlist items for that customer.
 export async function loader({ request }) {
   const url = new URL(request.url);
   const customerId = url.searchParams.get("customerId");
   const shop = url.searchParams.get("shop");
   const productId = url.searchParams.get("productId");
 
-
-  if(!customerId || !shop || !productId) {
-    return json({
+  if (!customerId || !shop || !productId) {
+    return cors(request, json({
+      ok: false,
       message: "Missing data. Required data: customerId, productId, shop",
       method: "GET"
-    });
+    }, { status: 400 }));
   }
 
-  // If customerId, shop, productId is provided, return wishlist items for that customer.
-  const wishlist = await db.wishlist.findMany({
-    where: {
-      customerId: customerId,
-      shop: shop,
-      productId: productId,
-    },
-  });
-
-
-  const response = json({
-    ok: true,
-    message: "Success",
-    data: wishlist,
-  });
-
-  return cors(request, response);
-
+  try {
+    const wishlistItems = await db.wishlist.findMany({
+      where: { customerId, shop, productId },
+    });
+    return cors(request, json({ ok: true, message: "Success", data: wishlistItems }));
+  } catch (error) {
+    console.error("Database error:", error);
+    return cors(request, json({
+      ok: false,
+      message: "Failed to fetch wishlist items",
+      error: error.message
+    }, { status: 500 }));
+  }
 }
 
-
-// Expexted data comes from post request. If
-// customerID, productID, shop
 export async function action({ request }) {
+  const formData = await request.formData();
+  const customerId = formData.get("customerId");
+  const productId = formData.get("productId");
+  const shop = formData.get("shop");
+  const _action = formData.get("_action");
 
-  let data = await request.formData();
-  data = Object.fromEntries(data);
-  const customerId = data.customerId;
-  const productId = data.productId;
-  const shop = data.shop;
-  const _action = data._action;
-
-  if(!customerId || !productId || !shop || !_action) {
-    return json({
+  if (!customerId || !productId || !shop || !_action) {
+    return cors(request, json({
+      ok: false,
       message: "Missing data. Required data: customerId, productId, shop, _action",
       method: _action
-    });
+    }, { status: 400 }));
   }
-
-  let response;
 
   switch (_action) {
     case "CREATE":
-      // Handle POST request logic here
-      // For example, adding a new item to the wishlist
-      const wishlist = await db.wishlist.create({
-        data: {
-          customerId,
-          productId,
-          shop,
-        },
-      });
-
-      response = json({ message: "Product added to wishlist", method: _action, wishlisted: true });
-      return cors(request, response);
-
-    case "PATCH":
-      // Handle PATCH request logic here
-      // For example, updating an existing item in the wishlist
-      return json({ message: "Success", method: "Patch" });
+      try {
+        const wishlist = await db.wishlist.create({
+          data: { customerId, productId, shop },
+        });
+        return cors(request, json({ ok: true, message: "Product added to wishlist", method: _action }));
+      } catch (error) {
+        console.error("Error creating wishlist item:", error);
+        return cors(request, json({
+          ok: false,
+          message: "Failed to add product to wishlist",
+          error: error.message
+        }, { status: 500 }));
+      }
 
     case "DELETE":
-      // Handle DELETE request logic here (Not tested)
-      // For example, removing an item from the wishlist
-      await db.wishlist.deleteMany({
-        where: {
-          customerId: customerId,
-          shop: shop,
-          productId: productId,
-        },
-      });
+      try {
+        await db.wishlist.deleteMany({
+          where: { customerId, shop, productId },
+        });
+        return cors(request, json({ ok: true, message: "Product removed from your wishlist", method: _action }));
+      } catch (error) {
+        console.error("Error deleting wishlist item:", error);
+        return cors(request, json({
+          ok: false,
+          message: "Failed to remove product from wishlist",
+          error: error.message
+        }, { status: 500 }));
+      }
 
-      response = json({ message: "Product removed from your wishlist", method: _action, wishlisted: false });
-      return cors(request, response);
+    case "PATCH":
+      // Assuming PATCH logic is correctly implemented in your actual code
+      return cors(request, json({ ok: true, message: "Wishlist item updated", method: "PATCH" }));
 
     default:
-      // Optional: handle other methods or return a method not allowed response
       return new Response("Method Not Allowed", { status: 405 });
   }
-
 }

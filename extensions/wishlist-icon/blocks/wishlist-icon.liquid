@@ -19,21 +19,65 @@
 
 <script>
   document.addEventListener('alpine:init', () => {
-    Alpine.data('wishlist', () => ({
-      wishlisted: false,
-      appUrl: "https://pty-contribute-reno-cities.trycloudflare.com/",
+      Alpine.data('wishlist', () => ({
+          init(){
+            fetch(this.appUrl + "api/wishlist"+"?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}")
+                .then(response => response.json())
+                .then(result => {
+                  console.log(result);
+                    if(result.data.length > 0){
+                      this.wishlisted = true;
+                    }
+                })
+                .catch(error => console.log('error', error));
+          },
+          wishlisted: false,
+          appUrl: "https://logs-activation-capable-gmc.trycloudflare.com/",
+          addToWishlist() {
+              // TODO: send data to database save wishlist
+              {%  unless customer  %}
+                // If customer is not login, show an alert to login
+                alert('Please login to add to wishlist');
+                return;
+              {% endunless %}
 
-      addToWishlist() {
-        this.wishlisted = !this.wishlisted;
+              var formdata = new FormData();
+              formdata.append("customerId", "{{ customer.id }}");
+              formdata.append("productId", "{{ product.id }}");
+              formdata.append("shop", "{{ shop.permanent_domain }}");
+              formdata.append("_action", "CREATE");
 
-        {% unless customer %}
-          alert('Please login to add to wishlist');
-          return;
-        {% endunless %}
-      },
-    }));
-  });
+              // If product is already in wishlist, remove it
+              if(this.wishlisted){
+                this.wishlisted = false;
+                // update formdata _action to delete
+                formdata.set("_action", "DELETE");
+              }
+
+              var requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+              };
+
+              fetch(this.appUrl + "api/wishlist", requestOptions)
+                  .then(response => response.json())
+                  .then(result => {
+                      console.log(result);
+                      if(result.wishlisted){
+                        this.wishlisted = true;
+                      }else{
+                        this.wishlisted = false;
+                      }
+                  })
+                  .catch(error => console.log('error', error));
+
+
+          }
+      }))
+  })
 </script>
+
 
 <style>
   .wishlist-inspire__icon {
