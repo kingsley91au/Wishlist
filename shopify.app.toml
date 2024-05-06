@@ -3,7 +3,7 @@
 client_id = "1f313bdea402026c1210448ea2d96fe3"
 name = "click-and-collect"
 handle = "click-and-collect-1"
-application_url = "https://stations-integrate-will-je.trycloudflare.com"
+application_url = "https://developments-forums-cyprus-economies.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://stations-integrate-will-je.trycloudflare.com/auth/callback",
-  "https://stations-integrate-will-je.trycloudflare.com/auth/shopify/callback",
-  "https://stations-integrate-will-je.trycloudflare.com/api/auth/callback"
+  "https://developments-forums-cyprus-economies.trycloudflare.com/auth/callback",
+  "https://developments-forums-cyprus-economies.trycloudflare.com/auth/shopify/callback",
+  "https://developments-forums-cyprus-economies.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
