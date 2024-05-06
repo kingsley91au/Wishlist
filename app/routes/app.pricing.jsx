@@ -15,7 +15,7 @@ import { useLoaderData } from "@remix-run/react";
 import { authenticate, MONTHLY_PLAN, ANNUAL_PLAN } from "../shopify.server";
 
 import {
-  MobileAcceptMajor
+  StarIcon
 } from '@shopify/polaris-icons'
 
 export async function loader({ request }) {
@@ -54,9 +54,9 @@ let planData = [
     title: "Free",
     description: "Free plan with basic features",
     price: "0",
-    action: "Upgrade to pro",
+    action: "Cancel plan",
     name: "Free",
-    url: "/app/upgrade",
+    url: "/app/cancel",
     features: [
       "100 wishlist per day",
       "500 Products",
@@ -70,8 +70,8 @@ let planData = [
     description: "Pro plan with advanced features",
     price: "10",
     name: "Monthly subscription",
-    action: "Upgrade to pro",
-    url: "/app/upgrade",
+    action: "Upgrade to Pro",
+    url: "/app/cancel",
     features: [
       "Unlimted wishlist per day",
       "10000 Products",
@@ -93,7 +93,7 @@ export default function PricingPage() {
           title="Change your plan"
           illustration="https://cdn.shopify.com/s/files/1/0583/6465/7734/files/tag.png?v=1705280535"
           primaryAction={{
-            content: 'Cancel Plan',
+            content: plan.name === "Free" ? 'Upgrade to Pro' : 'Cancel Plan',
             url: '/app/cancel',
           }}
         >
@@ -140,7 +140,7 @@ export default function PricingPage() {
                       key={index}
                       items={[
                         {
-                          icon: MobileAcceptMajor,
+                          icon: StarIcon,
                           description: feature,
                         },
                       ]}
@@ -161,7 +161,16 @@ export default function PricingPage() {
                       You're currently on this plan
                     </Text>
                   )
-                : null }
+                : plan.name != "Monthly subscription" ? (
+                  <Text as="p" variant="bodyMd">
+                    You're currently on this plan
+                  </Text>
+                ) : (
+                  <Button primary url={plan_item.url}>
+                    {plan_item.action}
+                  </Button>
+                  
+                ) }
               </Box>
             </Card>
           </Grid.Cell>
