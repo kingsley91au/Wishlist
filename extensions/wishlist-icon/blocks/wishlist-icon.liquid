@@ -20,7 +20,7 @@
     Alpine.data('wishlist', () => ({
       wishlisted: false,
       isProcessing: false,
-      appUrl: "https://king-iron-disk-minnesota.trycloudflare.com/",
+      appUrl: "https://vp-antiques-milton-bracelet.trycloudflare.com/",
 
       init() {
         fetch(this.appUrl + "api/wishlist?customerId={{ customer.id }}&productId={{ product.id }}&shop={{ shop.permanent_domain }}")
@@ -46,7 +46,9 @@
 
         var formdata = new FormData();
         formdata.append("customerId", "{{ customer.id }}");
+        formdata.append("customerName", "{{ customer.name }}");
         formdata.append("productId", "{{ product.id }}");
+        formdata.append("productName", "{{ product.title }}");
         formdata.append("shop", "{{ shop.permanent_domain }}");
         formdata.append("_action", this.wishlisted ? "DELETE" : "CREATE");
 

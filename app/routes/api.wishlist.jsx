@@ -2,12 +2,14 @@ import { json } from "@remix-run/node";
 import db from "../db.server";
 import { cors } from 'remix-utils/cors';
 
-// GET request: accept request with customerId, optionally shop and productId.
+// GET request: accept request with customerId, optionally customerName, shop, and productId.
 export async function loader({ request }) {
   const url = new URL(request.url);
   const customerId = url.searchParams.get("customerId");
+  const customerName = url.searchParams.get("customerName");
   const shop = url.searchParams.get("shop");
   const productId = url.searchParams.get("productId");
+  const productName = url.searchParams.get("productName");
 
   // Ensure customerId is present
   if (!customerId) {
@@ -19,11 +21,17 @@ export async function loader({ request }) {
 
   // Build the query filter based on provided parameters
   const whereClause = { customerId };
+  if (customerName) {
+    whereClause.customerName = customerName;
+  }
   if (shop) {
     whereClause.shop = shop;
   }
   if (productId) {
     whereClause.productId = productId;
+  }
+  if (productName) {
+    whereClause.productName = productName;
   }
 
   // Fetch wishlist items from the database
@@ -45,13 +53,15 @@ export async function action({ request }) {
   let data = await request.formData();
   data = Object.fromEntries(data);
   const customerId = data.customerId;
+  const customerName = data.customerName;
   const productId = data.productId;
+  const productName = data.productName;
   const shop = data.shop;
   const _action = data._action;
 
-  if (!customerId || !productId || !shop || !_action) {
+  if (!customerId || !customerName || !productId || !productName || !shop || !_action) {
     return json({
-      message: "Missing data. Required data: customerId, productId, shop, _action",
+      message: "Missing data. Required data: customerId, customerName, productId, shop, _action",
       method: _action
     });
   }
@@ -65,7 +75,9 @@ export async function action({ request }) {
       const wishlist = await db.wishlist.create({
         data: {
           customerId,
+          customerName,
           productId,
+          productName,
           shop,
         },
       });
@@ -83,13 +95,15 @@ export async function action({ request }) {
       return json({ message: "Success", method: "Patch" });
 
     case "DELETE":
-      // Handle DELETE request logic here (Not tested)
+      // Handle DELETE request logic here
       // For example, removing an item from the wishlist
       await db.wishlist.deleteMany({
         where: {
           customerId: customerId,
+          customerName: customerName,
           shop: shop,
           productId: productId,
+          productName: productName,
         },
       });
 

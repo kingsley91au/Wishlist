@@ -22,7 +22,9 @@ CREATE TABLE "Settings" (
 CREATE TABLE "Wishlist" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "customerId" TEXT,
+    "customerName" TEXT,
     "productId" TEXT,
+    "productName" TEXT,
     "shop" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

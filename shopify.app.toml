@@ -3,7 +3,7 @@
 client_id = "1f313bdea402026c1210448ea2d96fe3"
 name = "click-and-collect"
 handle = "click-and-collect-1"
-application_url = "https://king-iron-disk-minnesota.trycloudflare.com"
+application_url = "https://vp-antiques-milton-bracelet.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://king-iron-disk-minnesota.trycloudflare.com/auth/callback",
-  "https://king-iron-disk-minnesota.trycloudflare.com/auth/shopify/callback",
-  "https://king-iron-disk-minnesota.trycloudflare.com/api/auth/callback"
+  "https://vp-antiques-milton-bracelet.trycloudflare.com/auth/callback",
+  "https://vp-antiques-milton-bracelet.trycloudflare.com/auth/shopify/callback",
+  "https://vp-antiques-milton-bracelet.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

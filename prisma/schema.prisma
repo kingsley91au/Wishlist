@@ -28,11 +28,12 @@ model Settings {
   description String?
 }
 
-// Create Wishlist model with relations to Session. Store session id in wishlist table with one to many relation
 model Wishlist {
   id              Int      @id @default(autoincrement())
   customerId      String?
+  customerName    String?
   productId       String?
+  productName     String?
   shop            String?
   createdAt       DateTime @default(now())
 }

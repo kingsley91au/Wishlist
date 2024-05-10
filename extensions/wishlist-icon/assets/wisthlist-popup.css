@@ -1,17 +1,19 @@
-.wishlistpopup{
+.wishlistpopup {
     cursor: pointer !important;
 }
-.bg-popup{
+
+.bg-popup {
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0;
     left: 0;
     display: none;
     z-index: 10;
 }
-.window-popup{
+
+.window-popup {
     width: 30%;
     background-color: #fff;
     height: 100%;
@@ -21,4 +23,28 @@
     display: none;
     z-index: 11;
     padding: 20px;
+    cursor: auto;
+}
+
+.popupHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.closeBtn {
+    cursor: pointer;
+    position: relative;
+    margin: 18px 0;
+    width: 24px;
+    height: 24px;
+}
+.itemList {
+    list-style-type: none;
+    padding: 0;
+}
+.itemList li{
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
 }

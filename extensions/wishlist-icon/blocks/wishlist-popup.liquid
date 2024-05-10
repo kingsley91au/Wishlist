@@ -1,12 +1,138 @@
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script>
-  console.log('Testing');
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('wishlistPopup', () => ({
+      appUrl: 'https://vp-antiques-milton-bracelet.trycloudflare.com/',
+      isOpened: false,
+      wishlistItems: [],
+
+      init() {
+        fetch(this.appUrl + 'api/wishlist?customerId={{ customer.id }}')
+          .then((response) => response.json())
+          .then((result) => {
+
+            console.log('Fetched Data:', result.data);
+            this.wishlistItems = result.data || []; // Ensure it's an array
+            console.log('Assigned Wishlist Items:', this.wishlistItems);
+            this.updateWishlistList();
+          })
+          .catch((error) => console.log('Error:', error));
+        this.createPopup();
+      },
+      wishlistpopupBtn() {
+        this.togglePopup();
+
+        const closeBtn = document.querySelector('.closeBtn');
+        const bgBtn = document.querySelector('.bg-popup');
+
+        closeBtn.addEventListener('click', ()=>{
+            this.hidePopup();
+        });
+
+        bgBtn.addEventListener('click', ()=>{
+            this.hidePopup();
+        })
+
+      },
+
+      createPopup() {
+        // Create and style the background
+        this.background = document.createElement('div');
+        this.background.classList.add('bg-popup');
+
+        // Create and style the popup window
+        this.popupW = document.createElement('div');
+        this.popupW.classList.add('window-popup');
+
+        // Create and style the header inside the popup
+        let popupHeader = document.createElement('div');
+        popupHeader.classList.add('popupHeader');
+
+        let title = document.createElement('h3');
+        title.innerText = 'List of Wishlist';
+
+        let closeBtn = document.createElement('span');
+        closeBtn.innerHTML = `
+        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.7457 3.32851C20.3552 2.93798 19.722 2.93798 19.3315 3.32851L12.0371 10.6229L4.74275 3.32851C4.35223 2.93798 3.71906 2.93798 3.32854 3.32851C2.93801 3.71903 2.93801 4.3522 3.32854 4.74272L10.6229 12.0371L3.32856 19.3314C2.93803 19.722 2.93803 20.3551 3.32856 20.7457C3.71908 21.1362 4.35225 21.1362 4.74277 20.7457L12.0371 13.4513L19.3315 20.7457C19.722 21.1362 20.3552 21.1362 20.7457 20.7457C21.1362 20.3551 21.1362 19.722 20.7457 19.3315L13.4513 12.0371L20.7457 4.74272C21.1362 4.3522 21.1362 3.71903 20.7457 3.32851Z" fill="#0F0F0F"/>
+        </svg>`;
+        closeBtn.classList.add('closeBtn');
+
+        popupHeader.appendChild(title);
+        popupHeader.appendChild(closeBtn);
+
+        // Append the header to the popup window
+        this.popupW.appendChild(popupHeader);
+
+        // Create the list container for wishlist items
+        this.ul = document.createElement('ul');
+        this.ul.setAttribute('x-ref', 'wishlistList');// Reference to update dynamically
+        this.ul.classList.add('itemList');
+
+        this.updateWishlistList(); // Populate the list initially
+
+        this.popupW.appendChild(this.ul);
+
+        // Append the popup and background to the Alpine component's root element
+        this.$el.appendChild(this.background);
+        this.$el.appendChild(this.popupW);
+
+        this.isOpened = true;
+      },
+
+      updateWishlistList() {
+        this.ul.innerHTML = this.wishlistItems.map(item => `
+          <li>
+            <a href="{{ shop.url }}/products/${item.productName.replace(/\s+/g, '-')}">${item.productName}</a>
+            <a><svg width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+                <title>delete [#1487]</title>
+                <desc>Created with Sketch.</desc>
+                <defs>
+            
+            </defs>
+                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Dribbble-Light-Preview" transform="translate(-179.000000, -360.000000)" fill="#000000">
+                        <g id="icons" transform="translate(56.000000, 160.000000)">
+                            <path d="M130.35,216 L132.45,216 L132.45,208 L130.35,208 L130.35,216 Z M134.55,216 L136.65,216 L136.65,208 L134.55,208 L134.55,216 Z M128.25,218 L138.75,218 L138.75,206 L128.25,206 L128.25,218 Z M130.35,204 L136.65,204 L136.65,202 L130.35,202 L130.35,204 Z M138.75,204 L138.75,200 L128.25,200 L128.25,204 L123,204 L123,206 L126.15,206 L126.15,220 L140.85,220 L140.85,206 L144,206 L144,204 L138.75,204 Z" id="delete-[#1487]">
+            
+            </path>
+                        </g>
+                    </g>
+                </g>
+            </svg></a>
+        </li>
+        `).join('');
+      },
+
+      togglePopup() {
+        if (this.background.style.display === 'block') {
+          this.hidePopup();
+        } else {
+          this.showPopup();
+        }
+      },
+
+      showPopup() {
+        this.background.style.display = 'block';
+        this.popupW.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+      },
+
+      hidePopup() {
+        this.background.style.display = 'none';
+        this.popupW.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+      },
+    }));
+  });
 </script>
 {% schema %}
 {
   "name": "Wishlist Popup",
   "target": "body",
   "stylesheet": "wisthlist-popup.css",
+  "javascript": "wisthlist-popup.js",
   "settings": []
 }
 {% endschema %}
